@@ -28,7 +28,9 @@ export default function RootLayout({
               <Sidebar />
             </Suspense>
           </div>
-          <div className="basis-3/4">{children}</div>
+          <div className="basis-3/4">
+            <Suspense fallback={<Loading />}>{children}</Suspense>
+          </div>
         </div>
       </body>
     </html>

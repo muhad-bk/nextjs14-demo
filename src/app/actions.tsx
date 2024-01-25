@@ -75,8 +75,8 @@ export async function fetchEpisodeWithCharacters(
   };
 }
 
-export async function fetchHomeCharacters(): Promise<[Character]> {
-  const response = await fetch(`${API_URL}character`, {
+export async function fetchHomeCharacters(page:number = 1): Promise<[Character]> {
+  const response = await fetch(`${API_URL}character?page=${page}`, {
     cache: "force-cache",
     next: { tags: ["character"] },
   });

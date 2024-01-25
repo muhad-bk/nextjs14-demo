@@ -8,7 +8,6 @@ export default async function Sidebar() {
     <ul className="flex flex-col pb-3">
       <EpicList episodes={episodes}/>
       <LoadMoreEpic />
-      <button className="btn btn-neutral"/>
     </ul>
   );
 }
