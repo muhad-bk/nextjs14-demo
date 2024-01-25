@@ -9,8 +9,8 @@ import Loading from "@/components/loading";
 const singleDay = Single_Day({ weight: "400" });
 
 export const metadata: Metadata = {
-  title: "Next.JS SSR Demo App",
-  description: "Using The Rick and Morty AP",
+  title: "Rick and Morty Characters",
+  description: "Demo App",
 };
 
 export default function RootLayout({
@@ -22,8 +22,8 @@ export default function RootLayout({
     <html lang="en" data-theme={"light"}>
       <body className={singleDay.className}>
         <Header />
-        <div className="container flex flex-row">
-          <div className="basis-1/4 overflow-auto max-h-[75vh] border-2 border-black p-2 rounded-2xl">
+        <div className="container flex flex-row ">
+          <div className="basis-1/4 overflow-auto max-h-screen sticky top-0 border-2 border-black p-2 rounded-2xl">
             <Suspense fallback={<Loading />}>
               <Sidebar />
             </Suspense>

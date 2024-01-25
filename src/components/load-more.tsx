@@ -40,7 +40,7 @@ const LoadMore = () => {
   return (
     <>
       {episodes.map(({ id, name }) => (
-        <li className="btn btn-outline m-2" key={id}>
+        <li className="btn btn-outline m-2 text-xl h-auto" key={id}>
           <Link href={`/episode/${id}`}>{name}</Link>
         </li>
       ))}
