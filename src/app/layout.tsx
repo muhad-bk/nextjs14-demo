@@ -23,7 +23,7 @@ export default function RootLayout({
       <body className={singleDay.className}>
         <Header />
         <div className="container flex flex-row ">
-          <div className="basis-1/4 overflow-auto max-h-screen sticky top-0 border-2 border-black p-2 rounded-2xl">
+          <div className="basis-1/4 overflow-auto max-h-screen sticky top-0 border-2 border-black p-2 my-2 rounded-2xl">
             <Suspense fallback={<Loading />}>
               <Sidebar />
             </Suspense>

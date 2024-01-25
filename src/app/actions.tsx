@@ -2,7 +2,7 @@
 
 const API_URL = process.env.API_URL || "https://rickandmortyapi.com/api/";
 
-interface Character {
+export interface Character {
   id: number;
   name: string;
   image: string;
@@ -52,10 +52,27 @@ export async function fetchEpisodeWithCharacters(
   }
 
   const data = await response.json();
-  const characters = data.characters?.length
-    ? await Promise.all(data.characters?.map(fetchCharacters))
-    : [];
-  return { ...data, characters };
+  //   const characters = data.characters?.length
+  //     ? await Promise.all(data.characters?.map(fetchCharacters))
+  //     : [];
+
+  const chars = data.characters
+    ?.map((url: string) => url.split("/", -1).pop())
+    ?.join(", ");
+
+  const charactersRes = await fetch(`${API_URL}character/${chars}`, {
+    cache: "force-cache",
+    next: { tags: ["episodeChar", id] },
+  });
+  const characters = await charactersRes.json();
+  return {
+    ...data,
+    characters: characters?.map((char: Character) => ({
+      id: char.id,
+      name: char.name,
+      image: char.image,
+    })),
+  };
 }
 
 export async function fetchHomeCharacters(): Promise<[Character]> {

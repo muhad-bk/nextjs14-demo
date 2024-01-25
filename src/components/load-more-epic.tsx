@@ -4,13 +4,13 @@ import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { fetchEpisodes } from "@/app/actions";
 import Loading from "./loading";
-import Link from "next/link";
+import EpicList from "./episode-list";
 let page = 2;
 let stopLoading = false;
 const LoadMore = () => {
   const { ref, inView } = useInView();
 
-  const [episodes, setEpisode] = useState<any[]>([]);
+  const [episodes, setEpisode] = useState<[{name: string, id:number}]>([] as any);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -18,12 +18,11 @@ const LoadMore = () => {
       setIsLoading(true);
       // Add a delay of 500 milliseconds
       const delay = 500;
-
       const timeoutId = setTimeout(() => {
         if (!stopLoading) {
           fetchEpisodes(page).then((res) => {
             stopLoading = res?.length ? false : true;
-            setEpisode([...episodes, ...res]);
+            setEpisode([...episodes, ...res] as any);
             page++;
           }).catch(()=>{
             setIsLoading(false)
@@ -39,11 +38,7 @@ const LoadMore = () => {
 
   return (
     <>
-      {episodes.map(({ id, name }) => (
-        <li className="btn btn-outline m-2 text-xl h-auto" key={id}>
-          <Link href={`/episode/${id}`}>{name}</Link>
-        </li>
-      ))}
+      <EpicList episodes={episodes} />
       <div ref={ref}>
         {inView && isLoading && !stopLoading && (
           <div className="flex place-content-center">
