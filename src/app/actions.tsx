@@ -2,6 +2,12 @@
 
 const API_URL = process.env.API_URL || "https://rickandmortyapi.com/api/";
 
+interface Character {
+  id: number;
+  name: string;
+  image: string;
+}
+
 export async function fetchEpisodes(
   page: number = 1
 ): Promise<[{ id: number; name: string }]> {
@@ -33,10 +39,12 @@ async function fetchCharacters(url: string) {
   return { id: data.id, name: data.name, image: data.image };
 }
 
-export async function fetchEpisodeWithCharacters(id: number) {
+export async function fetchEpisodeWithCharacters(
+  id: string
+): Promise<{ name: string; characters: [Character] }> {
   const response = await fetch(`${API_URL}episode/${id}`, {
     cache: "force-cache",
-    next: { tags: ["episode", `${id}`] },
+    next: { tags: ["episode", id] },
   });
   if (!response.ok) {
     // This will activate the closest `error.js` Error Boundary
@@ -45,14 +53,12 @@ export async function fetchEpisodeWithCharacters(id: number) {
 
   const data = await response.json();
   const characters = data.characters?.length
-    ? Promise.all(data.characters?.map(fetchCharacters))
+    ? await Promise.all(data.characters?.map(fetchCharacters))
     : [];
   return { ...data, characters };
 }
 
-export async function fetchHomeCharacters(): Promise<
-  [{ id: number; name: string, image: string }]
-> {
+export async function fetchHomeCharacters(): Promise<[Character]> {
   const response = await fetch(`${API_URL}character`, {
     cache: "force-cache",
     next: { tags: ["character"] },
@@ -63,6 +69,10 @@ export async function fetchHomeCharacters(): Promise<
   }
   const data = await response.json();
   return data.results?.length
-    ? data.results.map((ch: any) => ({ id: ch.id, name: ch.name, image:ch.image }))
+    ? data.results.map((ch: any) => ({
+        id: ch.id,
+        name: ch.name,
+        image: ch.image,
+      }))
     : [];
 }

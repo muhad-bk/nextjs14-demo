@@ -1,6 +1,6 @@
 import { fetchEpisodes } from "@/app/actions";
 import Link from "next/link";
-import LoadMore from "./load-more";
+import LoadMoreEpic from "./load-more-epic";
 
 export default async function Sidebar() {
   const episodes = await fetchEpisodes(1);
@@ -11,7 +11,7 @@ export default async function Sidebar() {
           <Link href={`/episode/${id}`}>{name}</Link>
         </li>
       ))}
-      <LoadMore />
+      <LoadMoreEpic />
     </ul>
   );
 }
