@@ -1,5 +1,4 @@
-import Image from "next/image";
-import { fetchEpisodeWithCharacters } from "../../actions";
+import { fetchEpisodeWithCharacters } from "../../../actions";
 import CharsList from "@/components/chars-lis";
 
 type Props = {

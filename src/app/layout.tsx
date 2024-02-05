@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Single_Day } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header";
-import Sidebar from "@/components/sidebar";
 import { Suspense } from "react";
 import Loading from "@/components/loading";
 
@@ -23,14 +22,7 @@ export default function RootLayout({
       <body className={singleDay.className}>
         <Header />
         <div className="container flex flex-row ">
-          <div className="basis-1/4 overflow-auto max-h-screen sticky top-0 border-2 border-black p-2 my-2 rounded-2xl">
-            <Suspense fallback={<Loading />}>
-              <Sidebar />
-            </Suspense>
-          </div>
-          <div className="basis-3/4">
-            <Suspense fallback={<Loading />}>{children}</Suspense>
-          </div>
+          <Suspense fallback={<Loading />}>{children}</Suspense>
         </div>
       </body>
     </html>

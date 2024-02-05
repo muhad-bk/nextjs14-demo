@@ -1,4 +1,4 @@
-import { fetchHomeCharacters } from "./actions";
+import { fetchHomeCharacters } from "../actions";
 import LoadMoreChars from "@/components/load-more-char";
 import CharsList from "@/components/chars-lis";
 

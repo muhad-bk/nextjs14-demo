@@ -1,5 +1,7 @@
 "use server";
 
+import { AnyMxRecord } from "dns";
+
 const API_URL = process.env.API_URL || "https://rickandmortyapi.com/api/";
 
 export interface Character {
@@ -25,6 +27,35 @@ export async function fetchEpisodes(
     ? data.results.map((ep: any) => ({ id: ep.id, name: ep.name }))
     : [];
 }
+
+export async function fetchCharacterWithEpisodes(id: string) {
+  const response = await fetch(`${API_URL}character/${id}`, {
+    cache: "force-cache",
+    next: { tags: ["character", id] },
+  });
+  if (!response.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error("Failed to fetch data");
+  }
+
+  const data = await response.json();
+  const episodes = data.episode
+  ?.map((url: string) => url.split("/", -1).pop())
+  ?.join(", ");
+
+  const episodesRes = await fetch(`${API_URL}episode/${episodes}`, {
+    cache: "force-cache",
+    next: { tags: ["episodes", id] },
+  });
+  const epis = await episodesRes.json();
+
+  return { id: data.id, name: data.name, image: data.image, episode: epis.map((e:any)=>({
+    id: e.id,
+    name: e.name,
+    air_date: e.air_date
+  })) };
+}
+
 async function fetchCharacters(url: string) {
   const response = await fetch(url, {
     cache: "force-cache",
