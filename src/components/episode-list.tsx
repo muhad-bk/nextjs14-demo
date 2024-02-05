@@ -15,7 +15,7 @@ const EpicList = ({
       id={`${id}`}
       className={`btn ${
         id.toString() === params.id ? "btn-neutral" : "btn-outline"
-      } m-2 text-xl h-auto `}
+      } mx-0 my-2 md:m-2 text-xl h-auto`}
       key={id}
       onClick={() => {
         if (params.id === id.toString()) router.push(`/`);
