@@ -43,7 +43,7 @@ export async function fetchCharacterWithEpisodes(id: string) {
   ?.map((url: string) => url.split("/", -1).pop())
   ?.join(", ");
 
-  const episodesRes = await fetch(`${API_URL}episode/${episodes}`, {
+  const episodesRes = await fetch(`${API_URL}episode/${episodes},`, {
     cache: "force-cache",
     next: { tags: ["episodes", id] },
   });
@@ -91,7 +91,7 @@ export async function fetchEpisodeWithCharacters(
     ?.map((url: string) => url.split("/", -1).pop())
     ?.join(", ");
 
-  const charactersRes = await fetch(`${API_URL}character/${chars}`, {
+  const charactersRes = await fetch(`${API_URL}character/${chars},`, {
     cache: "force-cache",
     next: { tags: ["episodeChar", id] },
   });
