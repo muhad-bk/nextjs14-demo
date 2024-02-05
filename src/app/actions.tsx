@@ -49,11 +49,11 @@ export async function fetchCharacterWithEpisodes(id: string) {
   });
   const epis = await episodesRes.json();
 
-  return { id: data.id, name: data.name, image: data.image, episode: epis.map((e:any)=>({
+  return { id: data.id, name: data.name, image: data.image, episode: epis.length?epis.map((e:any)=>({
     id: e.id,
     name: e.name,
     air_date: e.air_date
-  })) };
+  })):[] };
 }
 
 async function fetchCharacters(url: string) {
